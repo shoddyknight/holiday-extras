@@ -67,7 +67,11 @@ const createUser = async ({
 
   const res = await pool.query(query, [email, familyName, givenName])
 
-  return res
+  const {
+    rows = []
+  } = res
+
+  return rows[0].userid
 }
 
 const deleteUser = async (id) => {
@@ -108,7 +112,11 @@ const updateUser = async ({
 
   const res = pool.query(query)
 
-  return res
+  const {
+    rows = []
+  } = res
+
+  return rows[0]
 }
 
 module.exports = {
