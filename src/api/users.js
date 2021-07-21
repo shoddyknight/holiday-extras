@@ -13,6 +13,7 @@ const createUser = async ({
 } = {}) => {
   // caller.hasPermissionToCreate()
   if (!email || !familyName || !givenName) {
+    console.log(`Incorrect data passed: ${email} ${familyName} ${givenName}`)
     return {
       error: 'BAD REQUEST'
     }
@@ -37,12 +38,14 @@ const readUser = async (userId) => {
 
   // Don't use false equivalency check because 0 could be a valid Id!
   if (userId === null || userId === '' || userId === undefined) {
+    console.log('Invalid userId')
     return {
       error: 'BAD REQUEST'
     }
   }
   const user = usersDb.readUser(userId)
   if (!user) {
+    console.log(`No user with id: ${userId}, found in Db`)
     return {
       error: 'NOT FOUND'
     }
