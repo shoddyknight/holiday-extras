@@ -49,7 +49,7 @@ app.get('/user/:userId', async (req, res) => {
     }
   } catch (e) {
     console.log(`Unhandled error; ${e.message}`)
-    res.status(500).send('Internal error')
+    res.status(500).json('Internal error')
   }
 })
 
@@ -72,7 +72,7 @@ app.delete('/user/:userId', async (req, res) => {
     if (error) {
       handleError(error, res)
     } else {
-      res.status(202).send(userId)
+      res.status(202).json(userId)
     }
   } catch (e) {
     console.log(`Unhandled error; ${e.message}`)
@@ -87,10 +87,10 @@ app.get('/user', async (req, res) => {
   try {
     const foundUsers = await users.getUsers()
 
-    res.status(200).send(foundUsers)
+    res.status(200).json(foundUsers)
   } catch (e) {
     console.log(`Unhandled error; ${e.message}`)
-    res.status(500).send('Internal error')
+    res.status(500).json('Internal error')
   }
 })
 
@@ -109,11 +109,11 @@ app.post('/user', async (req, res) => {
     if (error) {
       handleError(error, res)
     } else {
-      res.status(201).send(createdUserId)
+      res.status(201).json(createdUserId)
     }
   } catch (e) {
     console.log(`Unhandled error; ${e.message}`)
-    res.status(500).send('Internal error')
+    res.status(500).json('Internal error')
   }
 })
 
@@ -132,26 +132,26 @@ app.put('/user', async (req, res) => {
     if (error) {
       handleError(error, res)
     } else {
-      res.status(202).send(updatedUser)
+      res.status(202).json(updatedUser)
     }
   } catch (e) {
     console.log(`Unhandled error; ${e.message}`)
-    res.status(500).send('Internal error')
+    res.status(500).json('Internal error')
   }
 })
 
 const handleError = (error, res) => {
   switch (error) {
     case 'BAD REQUEST':
-      res.status(400).send(error)
+      res.status(400).json(error)
       return
     case 'NOT FOUND':
-      res.status(404).send(error)
+      res.status(404).json(error)
       return
     case 'NOT MODIFIED':
-      res.status(304).send('Use PUT to modify this resource instead of POST')
+      res.status(304).json('Use PUT to modify this resource instead of POST')
       return
     default:
-      res.status(500).send('Internal error')
+      res.status(500).json('Internal error')
   }
 }
