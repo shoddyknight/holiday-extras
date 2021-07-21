@@ -14,7 +14,7 @@ app.use(express.json())
  */
 app.get('/', (req, res) => {
   res.sendFile('index.html', {
-    root: path.join(__dirname, './html-client-generated')
+    root: path.join(__dirname, './swagger-page')
   })
 })
 
