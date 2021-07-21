@@ -1,6 +1,6 @@
-const { Client } = require('pg')
+const { Pool } = require('pg')
 
-const client = new Client({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
@@ -11,15 +11,13 @@ const tableName = 'users'
 
 const readUser = async (userId) => {
   console.log('Reading user')
-  await client.connect()
 
   const id = Number.parseInt(userId)
 
-  const user = await client.query(`SELECT * FROM ${tableName} WHERE userId = ${id}`)
+  const query = `SELECT * FROM ${tableName} WHERE userId = $1`
+  console.log(`Query: ${query}`)
 
-  await client.end()
-
-  return user
+  return await pool.query(query, [id])
 }
 
 const createUser = async ({
@@ -28,23 +26,22 @@ const createUser = async ({
   givenName
 }) => {
   console.log('Creating user')
-  await client.connect()
 
-  const id = await client.query(`INSERT INTO ${tableName} (email, familyName, givenName)
-    VALUES (${email}, ${familyName}, ${givenName})`)
+  const query = `INSERT INTO ${tableName} (email, familyName, givenName) VALUES ($1, $2, $3)`;
+  console.log(`Query: ${query}`)
 
-  await client.end()
+  const id = await pool.query(query, [email, familyName, givenName])
 
   return id
 }
 
-const deleteUser = async (userId) => {
+const deleteUser = async (id) => {
   console.log('Deleting user')
-  await client.connect()
+  
+  const query = `DELETE FROM ${tableName} WHERE userId = $1`
+  console.log(`Query: ${query}`)
 
-  await client.query(`DELETE FROM ${tableName} WHERE userId = ${userId}`);
-
-  await client.end()
+  return await pool.query(query, [id])
 }
 
 module.exports = {
