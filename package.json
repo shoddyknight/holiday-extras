@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint --fix",
+    "start": "node src/index.js",
     "test": "jest ."
   },
   "repository": {
@@ -22,5 +23,12 @@
     "eslint-config-standard": "^16.0.3",
     "express": "^4.17.1",
     "jest": "^27.0.6"
+  },
+  "keywords": [
+    "holiday-extras",
+    "heroku"
+  ],
+  "engines": {
+    "node": "15.x"
   }
 }
