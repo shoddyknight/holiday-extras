@@ -14,10 +14,10 @@ const readUser = async (userId) => {
 
   const id = Number.parseInt(userId)
 
-  const query = `SELECT * FROM ${tableName} WHERE userId = $1`
+  const query = `SELECT * FROM ${tableName} WHERE userid = ${id}`
   console.log(`Query: ${query}`)
 
-  return await pool.query(query, [id])
+  return await pool.query(query)
 }
 
 const createUser = async ({
@@ -27,7 +27,7 @@ const createUser = async ({
 }) => {
   console.log('Creating user')
 
-  const query = `INSERT INTO ${tableName} (email, familyName, givenName) VALUES ($1, $2, $3)`;
+  const query = `INSERT INTO ${tableName} (email, familyname, givenname) VALUES ($1, $2, $3)`;
   console.log(`Query: ${query}`)
 
   const id = await pool.query(query, [email, familyName, givenName])
@@ -38,7 +38,7 @@ const createUser = async ({
 const deleteUser = async (id) => {
   console.log('Deleting user')
   
-  const query = `DELETE FROM ${tableName} WHERE userId = $1`
+  const query = `DELETE FROM ${tableName} WHERE userid = $1`
   console.log(`Query: ${query}`)
 
   return await pool.query(query, [id])
