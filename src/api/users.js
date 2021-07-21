@@ -43,7 +43,7 @@ const readUser = async (userId) => {
       error: 'BAD REQUEST'
     }
   }
-  const user = usersDb.readUser(userId)
+  const user = await usersDb.readUser(userId)
   if (!user) {
     console.log(`No user with id: ${userId}, found in Db`)
     return {
