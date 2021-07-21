@@ -52,6 +52,33 @@ app.get('/user/:userId', async (req, res) => {
 })
 
 /**
+ * Delete a user
+ */
+app.delete('/user/:userId', async (req, res) => {
+  console.log(`DELETE /user/:userId Request params: ${JSON.stringify(req.params)}`)
+  const {
+    params: {
+      userId = ''
+    } = {}
+  } = req
+
+  try {
+    const {
+      error
+    } = await users.deleteUser(userId)
+
+    if (error) {
+      handleError(error, res)
+    } else {
+      res.status(2)
+    }
+  } catch (e) {
+    console.log(`Unhandled error; ${e.message}`)
+    res.status(500).send('Internal error')
+  }
+})
+
+/**
  * Add a user
  */
 app.post('/user', async (req, res) => {
@@ -66,7 +93,7 @@ app.post('/user', async (req, res) => {
     if (error) {
       handleError(error, res)
     } else {
-      res.status(200).send(createdUserId)
+      res.status(201).send(createdUserId)
     }
   } catch (e) {
     console.log(`Unhandled error; ${e.message}`)

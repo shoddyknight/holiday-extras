@@ -36,8 +36,7 @@ const createUser = async ({
 const readUser = async (userId) => {
   // caller.hasPermissionToGet()
 
-  // Don't use false equivalency check because 0 could be a valid Id!
-  if (userId === null || userId === '' || userId === undefined) {
+  if (!userId) {
     console.log('Invalid userId')
     return {
       error: 'BAD REQUEST'
@@ -57,7 +56,28 @@ const readUser = async (userId) => {
   }
 }
 
+/**
+ * API layer bridging the delete route and database
+ * Any security / permission checks would live here
+ * @param userId - the id of the user to delete
+ * @returns the user object
+ */
+ const deleteUser = async (userId) => {
+  // caller.hasPermissionToDelete()
+
+  if (!userId) {
+    console.log('Invalid userId')
+    return {
+      error: 'BAD REQUEST'
+    }
+  }
+  await usersDb.deleteUser(userId)
+
+  console.log(`Deleted user: ${userId}`)
+}
+
 module.exports = {
   createUser,
+  deleteUser,
   readUser
 }

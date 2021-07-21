@@ -115,11 +115,11 @@ describe('readUser', () => {
   })
 
   describe('when a valid userId is passed', () => {
-    const params = 0
+    const params = 1
 
     test('then a user is returned from the database', async () => {
       const user = {
-        userId: 0,
+        userId: 1,
         email: 'hello@world',
         givenName: 'Hello',
         familyName: 'World',
