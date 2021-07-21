@@ -101,7 +101,7 @@ const updateUser = async ({
     }
   }
 
-  if (await usersDb.readUser(userId)) {
+  if (!await usersDb.readUser(userId)) {
     return {
       error: 'NOT FOUND'
     }
