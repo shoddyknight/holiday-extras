@@ -18,7 +18,12 @@ const createUser = async ({
       error: 'BAD REQUEST'
     }
   }
-  // TODO: check if user with email (also a unique entry) exists in db, if so throw an error
+  
+  if (await usersDb.getUserByEmail(email)) {
+    return {
+      error: 'NOT MODIFIED'
+    }
+  }
 
   const id = await usersDb.createUser({ email, familyName, givenName })
   console.log(`Created user with id: ${JSON.stringify(id)}`)

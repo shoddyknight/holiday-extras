@@ -109,6 +109,9 @@ const handleError = (error, res) => {
     case 'NOT FOUND':
       res.status(404).send(error)
       return
+    case 'NOT MODIFIED':
+      res.status(304).send('Use PUT to modify this resource instead of POST')
+      return
     default:
       res.status(500).send('Internal error')
   }

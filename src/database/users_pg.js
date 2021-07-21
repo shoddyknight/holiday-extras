@@ -25,6 +25,20 @@ const readUser = async (userId) => {
   return rows[0]
 }
 
+const getUserByEmail = async (email) => {
+  console.log('Getting user by email')
+
+  const query = `SELECT * FROM ${tableName} WHERE email = $1`
+  console.log(`Query: ${query}`)
+
+  const res = await pool.query(query, [email])
+  const {
+    rows = []
+  } = res
+
+  return rows[0]
+}
+
 const createUser = async ({
   email,
   familyName,
@@ -52,5 +66,6 @@ const deleteUser = async (id) => {
 module.exports = {
   createUser,
   deleteUser,
+  getUserByEmail,
   readUser
 }
