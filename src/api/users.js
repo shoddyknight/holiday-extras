@@ -83,7 +83,7 @@ const deleteUser = async (userId) => {
 }
 
 /**
- * API layer bridging the POST user route and database
+ * API layer bridging the PUT user route and database
  * Any security / permission checks would live here
  * @returns Id of the user created/modified
  */
@@ -101,7 +101,7 @@ const updateUser = async ({
     }
   }
 
-  if (await usersDb.readUser(email)) {
+  if (await usersDb.readUser(userId)) {
     return {
       error: 'NOT FOUND'
     }
