@@ -1,6 +1,6 @@
 const express = require('express')
 
-const users = require('./users')
+const users = require('./api/users')
 
 const port = process.env.PORT || 3000
 
@@ -34,9 +34,21 @@ app.get('/user/:userId', async (req, res) => {
     } = {}
   } = req
 
-  const user = await users.getUser(userId)
+  try {
+    const {
+      error,
+      user
+    } = await users.getUser(userId)
 
-  res.send(user)
+    if (error) {
+      handleError(error, res)
+    } else {
+      res.status(200).send(user)
+    }
+  } catch (e) {
+    console.log(`Unhandled error; ${e.message}`)
+    res.status(500).send('Internal error')
+  }
 })
 
 /**
@@ -45,7 +57,32 @@ app.get('/user/:userId', async (req, res) => {
 app.post('/user', async (req, res) => {
   console.log(`POST /user Request params: ${JSON.stringify(req.params)}`)
 
-  const createdUserId = await users.createUser(req.params)
+  try {
+    const {
+      error,
+      id: createdUserId
+    } = await users.createUser(req.params)
 
-  res.send(createdUserId)
+    if (error) {
+      handleError(error, res)
+    } else {
+      res.status(200).send(createdUserId)
+    }
+  } catch (e) {
+    console.log(`Unhandled error; ${e.message}`)
+    res.status(500).send('Internal error')
+  }
 })
+
+const handleError = (error, res) => {
+  switch (error) {
+    case 'BAD REQUEST':
+      res.status(400).send(error)
+      return
+    case 'NOT FOUND':
+      res.status(404).send(error)
+      return
+    default:
+      res.status(500).send('Internal error')
+  }
+}

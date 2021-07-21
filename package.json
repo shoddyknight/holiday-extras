@@ -22,7 +22,8 @@
     "eslint": "^7.31.0",
     "eslint-config-standard": "^16.0.3",
     "express": "^4.17.1",
-    "jest": "^27.0.6"
+    "jest": "^27.0.6",
+    "pg": "^8.6.0"
   },
   "keywords": [
     "holiday-extras",
