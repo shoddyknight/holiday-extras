@@ -17,7 +17,12 @@ const readUser = async (userId) => {
   const query = `SELECT * FROM ${tableName} WHERE userid = $1`
   console.log(`Query: ${query}`)
 
-  return await pool.query(query, [id])
+  const res = await pool.query(query, [id])
+  const {
+    rows = []
+  } = res
+
+  return rows[0]
 }
 
 const createUser = async ({
