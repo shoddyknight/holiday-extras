@@ -91,18 +91,18 @@ const updateUser = async ({
 }) => {
   console.log('Updating user')
   let query = `UPDATE ${tableName}
-    SET`
+    SET `
 
   if (email) {
-    query += ` email = ${email}`
+    query += `email = ${email} `
   }
 
   if (familyName) {
-    query += ` familyname = ${familyName}`
+    query += `familyname = ${familyName} `
   }
 
   if (givenName) {
-    query += ` givenname = ${givenName}`
+    query += `givenname = ${givenName} `
   }
 
   query += `WHERE userid = ${userId} 
