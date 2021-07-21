@@ -81,6 +81,20 @@ app.delete('/user/:userId', async (req, res) => {
 })
 
 /**
+ * Get users
+ */
+app.get('/user', async (req, res) => {
+  try {
+    const foundUsers = await users.getUsers()
+
+    res.status(200).send(foundUsers)
+  } catch (e) {
+    console.log(`Unhandled error; ${e.message}`)
+    res.status(500).send('Internal error')
+  }
+})
+
+/**
  * Add a user
  */
 app.post('/user', async (req, res) => {

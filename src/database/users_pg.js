@@ -9,6 +9,20 @@ const pool = new Pool({
 
 const tableName = 'users'
 
+const getUsers = async () => {
+  console.log('Getting users')
+
+  const query = `SELECT * FROM ${tableName}`
+  console.log(`Query: ${query}`)
+
+  const res = await pool.query(query)
+  const {
+    rows = []
+  } = res
+
+  return rows
+}
+
 const readUser = async (userId) => {
   console.log('Reading user')
 
@@ -67,7 +81,7 @@ const deleteUser = async (id) => {
 
 const updateUser = async ({
   userId,
-  email, 
+  email,
   familyName,
   givenName
 }) => {
@@ -100,6 +114,7 @@ const updateUser = async ({
 module.exports = {
   createUser,
   deleteUser,
+  getUsers,
   getUserByEmail,
   readUser,
   updateUser

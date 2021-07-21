@@ -113,9 +113,15 @@ const updateUser = async ({
   }
 }
 
+const getUsers = async () => {
+  // caller.hasPermissionToGet()
+  return usersDb.getUsers()
+}
+
 module.exports = {
   createUser,
   deleteUser,
+  getUsers,
   readUser,
   updateUser
 }

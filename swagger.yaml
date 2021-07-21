@@ -14,6 +14,22 @@ produces:
   - application/json
 paths:
   /user:
+    get:
+      summary: Get all users
+      description: Returns all users in the Db
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'  
     put:
       summary: Update a user
       description: 'Updates a User'
