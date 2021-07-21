@@ -94,15 +94,15 @@ const updateUser = async ({
     SET `
 
   if (email) {
-    query += `email = ${email} `
+    query += `email = '${email}' `
   }
 
   if (familyName) {
-    query += `familyname = ${familyName} `
+    query += `familyname = '${familyName}' `
   }
 
   if (givenName) {
-    query += `givenname = ${givenName} `
+    query += `givenname = '${givenName}' `
   }
 
   query += `WHERE userid = ${userId} 
