@@ -1,0 +1,26 @@
+{
+  "name": "holiday-extras",
+  "version": "1.0.0",
+  "description": "Tech Test for Holiday Extras",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint --fix",
+    "test": "jest ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shoddyknight/holiday-extras.git"
+  },
+  "author": "Tim Knight",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shoddyknight/holiday-extras/issues"
+  },
+  "homepage": "https://github.com/shoddyknight/holiday-extras#readme",
+  "dependencies": {
+    "eslint": "^7.31.0",
+    "eslint-config-standard": "^16.0.3",
+    "express": "^4.17.1",
+    "jest": "^27.0.6"
+  }
+}
