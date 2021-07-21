@@ -2,7 +2,7 @@
 const usersDb = require('../database/users_pg')
 
 /**
-* API layer bridging the POST user route and database
+ * API layer bridging the POST user route and database
  * Any security / permission checks would live here
  * @returns Id of the user created/modified
  */
@@ -18,7 +18,7 @@ const createUser = async ({
       error: 'BAD REQUEST'
     }
   }
-  
+
   if (await usersDb.getUserByEmail(email)) {
     return {
       error: 'NOT MODIFIED'
@@ -67,7 +67,7 @@ const readUser = async (userId) => {
  * @param userId - the id of the user to delete
  * @returns the user object
  */
- const deleteUser = async (userId) => {
+const deleteUser = async (userId) => {
   // caller.hasPermissionToDelete()
 
   if (!userId) {
@@ -81,8 +81,41 @@ const readUser = async (userId) => {
   console.log(`Deleted user: ${userId}`)
 }
 
+/**
+ * API layer bridging the POST user route and database
+ * Any security / permission checks would live here
+ * @returns Id of the user created/modified
+ */
+const updateUser = async ({
+  userId,
+  email,
+  familyName,
+  givenName
+} = {}) => {
+  // caller.hasPermissionToUpdate()
+  if (!userId || (!email && !familyName && !givenName)) {
+    console.log(`Incorrect data passed: ${userId}`)
+    return {
+      error: 'BAD REQUEST'
+    }
+  }
+
+  if (await usersDb.readUser(email)) {
+    return {
+      error: 'NOT FOUND'
+    }
+  }
+
+  const user = await usersDb.updateUser({ userId, email, familyName, givenName })
+  console.log(`Updated user with id: ${JSON.stringify(userId)}`)
+  return {
+    user
+  }
+}
+
 module.exports = {
   createUser,
   deleteUser,
-  readUser
+  readUser,
+  updateUser
 }

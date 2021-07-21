@@ -46,7 +46,7 @@ const createUser = async ({
 }) => {
   console.log('Creating user')
 
-  const query = `INSERT INTO ${tableName} (email, familyname, givenname) VALUES ($1, $2, $3)`;
+  const query = `INSERT INTO ${tableName} (email, familyname, givenname) VALUES ($1, $2, $3)`
   console.log(`Query: ${query}`)
 
   const id = await pool.query(query, [email, familyName, givenName])
@@ -56,16 +56,48 @@ const createUser = async ({
 
 const deleteUser = async (id) => {
   console.log('Deleting user')
-  
+
   const query = `DELETE FROM ${tableName} WHERE userid = $1`
   console.log(`Query: ${query}`)
 
   return await pool.query(query, [id])
 }
 
+const updateUser = async ({
+  userId,
+  email, 
+  familyName,
+  givenName
+}) => {
+  console.log('Updating user')
+  let query = `UPDATE ${tableName}
+    SET`
+
+  if (email) {
+    query += ` email = ${email}`
+  }
+
+  if (familyName) {
+    query += ` familyname = ${familyName}`
+  }
+
+  if (givenName) {
+    query += ` givenname = ${givenName}`
+  }
+
+  query += `WHERE userid = ${userId}`
+
+  console.log(`Query: ${query}`)
+
+  await pool.query(query)
+
+  return readUser(userId)
+}
+
 module.exports = {
   createUser,
   deleteUser,
   getUserByEmail,
-  readUser
+  readUser,
+  updateUser
 }

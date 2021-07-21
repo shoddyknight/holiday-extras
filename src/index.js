@@ -101,6 +101,29 @@ app.post('/user', async (req, res) => {
   }
 })
 
+/**
+ * Update a user
+ */
+app.put('/user', async (req, res) => {
+  console.log(`Put /user Request params: ${JSON.stringify(req.params)}`)
+
+  try {
+    const {
+      error,
+      user: updatedUser
+    } = await users.updateUser(req.params)
+
+    if (error) {
+      handleError(error, res)
+    } else {
+      res.status(202).send(updatedUser)
+    }
+  } catch (e) {
+    console.log(`Unhandled error; ${e.message}`)
+    res.status(500).send('Internal error')
+  }
+})
+
 const handleError = (error, res) => {
   switch (error) {
     case 'BAD REQUEST':
