@@ -50,7 +50,7 @@ const readUser = async (userId) => {
     }
   }
 
-  console.log(`Found user: ${JSON.stringify(user)}`)
+  console.log(`Found user with id ${userId}`)
   return {
     user
   }
