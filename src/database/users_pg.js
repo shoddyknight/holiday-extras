@@ -13,7 +13,9 @@ const readUser = async (userId) => {
   console.log('Reading user')
   await client.connect()
 
-  const user = await client.query(`SELECT * FROM ${tableName} WHERE userId = ${userId}`);
+  const id = Number.parseInt(userId)
+
+  const user = await client.query(`SELECT * FROM ${tableName} WHERE userId = ${id}`)
 
   await client.end()
 
@@ -40,12 +42,13 @@ const deleteUser = async (userId) => {
   console.log('Deleting user')
   await client.connect()
 
-  const user = await client.query(`DELETE * FROM ${tableName} WHERE userId = ${userId}`);
+  await client.query(`DELETE FROM ${tableName} WHERE userId = ${userId}`);
 
   await client.end()
 }
 
 module.exports = {
   createUser,
+  deleteUser,
   readUser
 }
