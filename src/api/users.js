@@ -6,10 +6,10 @@ const usersDb = require('../database/users_pg')
  * Any security / permission checks would live here
  * @returns Id of the user created/modified
  */
-const createUser = ({
-  email = '',
-  familyName = '',
-  givenName = ''
+const createUser = async ({
+  email,
+  familyName,
+  givenName
 } = {}) => {
   // caller.hasPermissionToCreate()
   if (!email || !familyName || !givenName) {
@@ -17,12 +17,12 @@ const createUser = ({
       error: 'BAD REQUEST'
     }
   }
-  // TODO: generate created time, add user to Db, return id
-
   // TODO: check if user with email (also a unique entry) exists in db, if so throw an error
 
+  const id = await usersDb.createUser({ email, familyName, givenName })
+
   return {
-    id: 1
+    id
   }
 }
 
@@ -34,7 +34,9 @@ const createUser = ({
  */
 const getUser = async (userId) => {
   // caller.hasPermissionToGet()
-  if (!userId) {
+
+  // Don't use false equivalency check because 0 could be a valid Id!
+  if (userId === null || userId === '' || userId === undefined) {
     return {
       error: 'BAD REQUEST'
     }

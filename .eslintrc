@@ -1,3 +1,8 @@
 {
-    "extends": "standard"
+    "env": {
+        "node": true,
+        "jest": true
+    },
+    "extends": "standard",
+    "plugins": ["jest"]
 }
