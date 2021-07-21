@@ -2,7 +2,7 @@ const sinon = require('sinon')
 
 const {
   createUser,
-  getUser
+  readUser
 } = require('../../src/api/users')
 
 /**
@@ -14,7 +14,7 @@ const sandbox = sinon.createSandbox()
 
 beforeEach(() => {
   sandbox.stub(usersDb, 'createUser')
-  sandbox.stub(usersDb, 'getUser')
+  sandbox.stub(usersDb, 'readUser')
 })
 
 afterEach(() => {
@@ -36,7 +36,7 @@ describe('createUser', () => {
         error: 'BAD REQUEST'
       })
       sandbox.assert.notCalled(usersDb.createUser)
-      sandbox.assert.notCalled(usersDb.getUser)
+      sandbox.assert.notCalled(usersDb.readUser)
     })
   })
 
@@ -54,7 +54,7 @@ describe('createUser', () => {
         error: 'BAD REQUEST'
       })
       sandbox.assert.notCalled(usersDb.createUser)
-      sandbox.assert.notCalled(usersDb.getUser)
+      sandbox.assert.notCalled(usersDb.readUser)
     })
   })
 
@@ -72,7 +72,7 @@ describe('createUser', () => {
         error: 'BAD REQUEST'
       })
       sandbox.assert.notCalled(usersDb.createUser)
-      sandbox.assert.notCalled(usersDb.getUser)
+      sandbox.assert.notCalled(usersDb.readUser)
     })
   })
 
@@ -86,11 +86,11 @@ describe('createUser', () => {
     test('then a user is created in the database', async () => {
       sandbox.restore()
       sandbox.stub(usersDb, 'createUser').returns(2)
-      sandbox.stub(usersDb, 'getUser')
+      sandbox.stub(usersDb, 'readUser')
       const actual = await createUser(params)
 
       sandbox.assert.calledOnce(usersDb.createUser)
-      sandbox.assert.notCalled(usersDb.getUser)
+      sandbox.assert.notCalled(usersDb.readUser)
 
       expect(actual).toMatchObject({
         id: 2
@@ -99,18 +99,18 @@ describe('createUser', () => {
   })
 })
 
-describe('getUser', () => {
+describe('readUser', () => {
   describe('when no id is supplied', () => {
     const params = null
 
     test('it should return BAD REQUEST', async () => {
-      const actual = await getUser(params)
+      const actual = await readUser(params)
 
       expect(actual).toMatchObject({
         error: 'BAD REQUEST'
       })
       sandbox.assert.notCalled(usersDb.createUser)
-      sandbox.assert.notCalled(usersDb.getUser)
+      sandbox.assert.notCalled(usersDb.readUser)
     })
   })
 
@@ -128,11 +128,11 @@ describe('getUser', () => {
 
       sandbox.restore()
       sandbox.stub(usersDb, 'createUser')
-      sandbox.stub(usersDb, 'getUser').returns(user)
+      sandbox.stub(usersDb, 'readUser').returns(user)
 
-      const actual = await getUser(params)
+      const actual = await readUser(params)
 
-      sandbox.assert.calledOnce(usersDb.getUser)
+      sandbox.assert.calledOnce(usersDb.readUser)
       sandbox.assert.notCalled(usersDb.createUser)
 
       expect(actual).toMatchObject({ user })

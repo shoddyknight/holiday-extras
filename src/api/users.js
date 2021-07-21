@@ -32,7 +32,7 @@ const createUser = async ({
  * @param userId - the id of the user to get
  * @returns the user object
  */
-const getUser = async (userId) => {
+const readUser = async (userId) => {
   // caller.hasPermissionToGet()
 
   // Don't use false equivalency check because 0 could be a valid Id!
@@ -41,7 +41,7 @@ const getUser = async (userId) => {
       error: 'BAD REQUEST'
     }
   }
-  const user = usersDb.getUser(userId)
+  const user = usersDb.readUser(userId)
   if (!user) {
     return {
       error: 'NOT FOUND'
@@ -55,5 +55,5 @@ const getUser = async (userId) => {
 
 module.exports = {
   createUser,
-  getUser
+  readUser
 }

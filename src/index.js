@@ -38,7 +38,7 @@ app.get('/user/:userId', async (req, res) => {
     const {
       error,
       user
-    } = await users.getUser(userId)
+    } = await users.readUser(userId)
 
     if (error) {
       handleError(error, res)

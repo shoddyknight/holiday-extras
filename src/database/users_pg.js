@@ -1,10 +1,16 @@
 const { Client } = require('pg')
 
-const client = new Client()
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+})
 
 const tableName = 'users'
 
-const getUser = async (userId) => {
+const readUser = async (userId) => {
+  console.log('Reading user')
   await client.connect()
 
   const user = await client.query(`SELECT * FROM ${tableName} WHERE userId = ${userId}`);
@@ -19,6 +25,7 @@ const createUser = async ({
   familyName,
   givenName
 }) => {
+  console.log('Creating user')
   await client.connect()
 
   const id = await client.query(`INSERT INTO ${tableName} (email, familyName, givenName)
@@ -29,7 +36,16 @@ const createUser = async ({
   return id
 }
 
+const deleteUser = async (userId) => {
+  console.log('Deleting user')
+  await client.connect()
+
+  const user = await client.query(`DELETE * FROM ${tableName} WHERE userId = ${userId}`);
+
+  await client.end()
+}
+
 module.exports = {
   createUser,
-  getUser
+  readUser
 }
