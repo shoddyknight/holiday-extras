@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 
 const users = require('./api/users')
 
@@ -12,8 +13,9 @@ app.use(express.json())
  * Home to test express connectivity
  */
 app.get('/', (req, res) => {
-  // TODO: return API  Swagger spec
-  res.send('Hello Holiday Extras world!')
+  res.sendFile('index.html', {
+    root: path.join(__dirname, './html-client-generated')
+  })
 })
 
 /**
@@ -70,7 +72,7 @@ app.delete('/user/:userId', async (req, res) => {
     if (error) {
       handleError(error, res)
     } else {
-      res.status(2)
+      res.status(202).send(userId)
     }
   } catch (e) {
     console.log(`Unhandled error; ${e.message}`)

@@ -13,6 +13,57 @@ basePath: /v1
 produces:
   - application/json
 paths:
+  /user:
+    put:
+      summary: Update a user
+      description: 'Updates a User'
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: The User object to be updated
+          required: true
+          schema: 
+            $ref: '#/definitions/User'
+      responses:
+        202:
+          description: A User
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Add a user
+      description: 'Creates a User'
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: The User object to be created
+          required: true
+          schema: 
+            $ref: '#/definitions/User'
+      responses:
+        201:
+          description: The user's id
+          schema:
+            type: number
+            format: int64
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'   
+                 
   /user/{userId}:
     get:
       summary: Find User by Id
@@ -35,6 +86,29 @@ paths:
             type: object
             items:
               $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Delete a User by Id
+      description: 'Deletes a User'
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          type: number
+          format: int64
+      responses:
+        202:
+          description: Deleted user
+          schema:
+            type: string
         default:
           description: Unexpected error
           schema:
