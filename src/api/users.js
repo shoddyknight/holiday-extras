@@ -79,6 +79,7 @@ const deleteUser = async (userId) => {
   await usersDb.deleteUser(userId)
 
   console.log(`Deleted user: ${userId}`)
+  return {}
 }
 
 /**
