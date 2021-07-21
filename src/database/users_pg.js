@@ -46,12 +46,14 @@ const createUser = async ({
 }) => {
   console.log('Creating user')
 
-  const query = `INSERT INTO ${tableName} (email, familyname, givenname) VALUES ($1, $2, $3)`
+  const query = `INSERT INTO ${tableName} (email, familyname, givenname) 
+    VALUES ($1, $2, $3)
+    RETURNING userid`
   console.log(`Query: ${query}`)
 
-  const id = await pool.query(query, [email, familyName, givenName])
+  const res = await pool.query(query, [email, familyName, givenName])
 
-  return id
+  return res
 }
 
 const deleteUser = async (id) => {
@@ -85,13 +87,14 @@ const updateUser = async ({
     query += ` givenname = ${givenName}`
   }
 
-  query += `WHERE userid = ${userId}`
+  query += `WHERE userid = ${userId} 
+    RETURNING userid, email, familyname, givenname, created`
 
   console.log(`Query: ${query}`)
 
-  await pool.query(query)
+  const res = pool.query(query)
 
-  return readUser(userId)
+  return res
 }
 
 module.exports = {
