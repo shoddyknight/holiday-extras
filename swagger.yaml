@@ -1,0 +1,73 @@
+swagger: '2.0'
+info:
+  title: Holiday-Extras API
+  description: Description of the tech test API
+  version: "1.0.0"
+# the domain of the service
+host: holiday-extras-stage.herokuapp.com
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /user/{userId}:
+    get:
+      summary: Find User by Id
+      description: 'Returns a User'
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user
+          required: true
+          type: number
+          format: int64
+      responses:
+        200:
+          description: A User
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  User:
+    required: 
+      - email
+      - familyName
+      - givenName
+    properties:
+      userId:
+        type: string
+        description: Unique identifier representing a specific User.
+      email:
+        type: string
+        description: a User's email.
+      familyName:
+        type: string
+        description: a User's family name.
+      givenName:
+        type: string
+        description: a User's given name.
+      created:
+        type: string
+        description: ISO representation of the date/time the User was added.
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

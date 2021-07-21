@@ -8,12 +8,11 @@ const app = express()
 
 app.use(express.json())
 
-
 /**
  * Home to test express connectivity
  */
 app.get('/', (req, res) => {
-  // TODO: return README or Swagger spec
+  // TODO: return API  Swagger spec
   res.send('Hello Holiday Extras world!')
 })
 
@@ -35,7 +34,7 @@ app.get('/user/:userId', async (req, res) => {
     } = {}
   } = req
 
-  const user = await users.getUser(userId);
+  const user = await users.getUser(userId)
 
   res.send(user)
 })
