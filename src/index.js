@@ -14,7 +14,7 @@ app.use(express.json())
  */
 app.get('/', (req, res) => {
   res.sendFile('index.html', {
-    root: path.join(__dirname, './')
+    root: path.join(__dirname, './swagger-page')
   })
 })
 
@@ -84,13 +84,13 @@ app.delete('/user/:userId', async (req, res) => {
  * Add a user
  */
 app.post('/user', async (req, res) => {
-  console.log(`POST /user Request params: ${JSON.stringify(req.params)}`)
+  console.log(`POST /user Request body: ${JSON.stringify(req.body)}`)
 
   try {
     const {
       error,
       id: createdUserId
-    } = await users.createUser(req.params)
+    } = await users.createUser(req.body)
 
     if (error) {
       handleError(error, res)
@@ -107,13 +107,13 @@ app.post('/user', async (req, res) => {
  * Update a user
  */
 app.put('/user', async (req, res) => {
-  console.log(`Put /user Request params: ${JSON.stringify(req.params)}`)
+  console.log(`Put /user Request body: ${JSON.stringify(req.body)}`)
 
   try {
     const {
       error,
       user: updatedUser
-    } = await users.updateUser(req.params)
+    } = await users.updateUser(req.body)
 
     if (error) {
       handleError(error, res)
