@@ -2,6 +2,7 @@ const sinon = require('sinon')
 
 const {
   createUser,
+  deleteUser,
   readUser
 } = require('../../src/api/users')
 
@@ -15,6 +16,7 @@ const sandbox = sinon.createSandbox()
 beforeEach(() => {
   sandbox.stub(usersDb, 'createUser')
   sandbox.stub(usersDb, 'readUser')
+  sandbox.stub(usersDb, 'deleteUser')
 })
 
 afterEach(() => {
@@ -168,6 +170,37 @@ describe('readUser', () => {
       sandbox.assert.notCalled(usersDb.createUser)
 
       expect(actual).toMatchObject({ user })
+    })
+  })
+})
+
+describe('deleteUser', () => {
+  describe('when no id is supplied', () => {
+    const params = null
+
+    test('it should return BAD REQUEST', async () => {
+      const actual = await readUser(params)
+
+      expect(actual).toMatchObject({
+        error: 'BAD REQUEST'
+      })
+      sandbox.assert.notCalled(usersDb.deleteUser)
+      sandbox.assert.notCalled(usersDb.readUser)
+    })
+  })
+
+  describe('when a valid userId is passed', () => {
+    const params = 1
+
+    test('then a user is deleted from the database', async () => {
+      sandbox.restore()
+      sandbox.stub(usersDb, 'deleteUser')
+      sandbox.stub(usersDb, 'createUser')
+
+      await deleteUser(params)
+
+      sandbox.assert.calledOnce(usersDb.deleteUser)
+      sandbox.assert.notCalled(usersDb.createUser)
     })
   })
 })
