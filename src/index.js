@@ -43,7 +43,7 @@ app.get('/user/:userId', async (req, res) => {
     if (error) {
       handleError(error, res)
     } else {
-      res.status(200).send(user)
+      res.status(200).json(user)
     }
   } catch (e) {
     console.log(`Unhandled error; ${e.message}`)
