@@ -14,10 +14,10 @@ const readUser = async (userId) => {
 
   const id = Number.parseInt(userId)
 
-  const query = `SELECT * FROM ${tableName} WHERE userid = ${id}`
+  const query = `SELECT * FROM ${tableName} WHERE userid = $1`
   console.log(`Query: ${query}`)
 
-  return await pool.query(query)
+  return await pool.query(query, [id])
 }
 
 const createUser = async ({

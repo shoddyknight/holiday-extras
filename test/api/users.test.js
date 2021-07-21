@@ -85,7 +85,7 @@ describe('createUser', () => {
 
     test('then a user is created in the database', async () => {
       sandbox.restore()
-      sandbox.stub(usersDb, 'createUser').returns(2)
+      sandbox.stub(usersDb, 'createUser').returns(Promise.resolve(2))
       sandbox.stub(usersDb, 'readUser')
       const actual = await createUser(params)
 
@@ -128,7 +128,7 @@ describe('readUser', () => {
 
       sandbox.restore()
       sandbox.stub(usersDb, 'createUser')
-      sandbox.stub(usersDb, 'readUser').returns(user)
+      sandbox.stub(usersDb, 'readUser').returns(Promise.resolve(user))
 
       const actual = await readUser(params)
 
